@@ -1,6 +1,7 @@
 package cl.desafiolatam.desafiounobase
-
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +13,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var nameInput: TextInputEditText
     lateinit var advance: Button
     lateinit var container: ConstraintLayout
+    lateinit var pSharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,11 +22,20 @@ class MainActivity : AppCompatActivity() {
         advance = findViewById(R.id.login_button)
         container = findViewById(R.id.container)
         setUpListeners()
+
+        val pFileName = "package cl.desafiolatam.desafiounobase"
+
+        pSharedPreferences = getSharedPreferences(pFileName,Context.MODE_PRIVATE)
+
+
+        var pUser1 = "pamela.valenzuela@usach.cl"
     }
 
     private fun setUpListeners() {
         advance.setOnClickListener {
             if (nameInput.text!!.isNotEmpty()) {
+                var pUserKey = "user"
+                pSharedPreferences.edit().putString(pUserKey, nameInput.text.toString()).apply()
                 val intent: Intent
                 if (hasSeenWelcome()) {
                     intent = Intent(this, HomeActivity::class.java)
